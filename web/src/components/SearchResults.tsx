@@ -13,7 +13,14 @@ export function formatAmount(amountMinor: number, currency: string): string {
 
 export function SearchResults({ payments }: { payments: Payment[] }) {
   if (payments.length === 0) {
-    return <p className="empty">No payments matched your search.</p>;
+    return (
+      <div className="empty">
+        <p>No payments matched your search.</p>
+        <p className="empty__hint">
+          Try a payment id, a reference, or widen the date range.
+        </p>
+      </div>
+    );
   }
   return (
     <ul className="results">

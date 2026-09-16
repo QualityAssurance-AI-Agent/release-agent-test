@@ -38,10 +38,14 @@ def search_payments(store, query: str, limit: int = 25) -> dict:
 
 
 def get_payment(store, payment_id: str) -> dict:
+    """Return one payment, with the settlement timestamps callers were asking for."""
     record = store.get(payment_id)
     if record is None:
         raise PaymentNotFound(payment_id)
-    return asdict(_view(record))
+    view = asdict(_view(record))
+    view["created_at"] = record["created_at"]
+    view["settled_at"] = record.get("settled_at")
+    return view
 
 
 def _view(record) -> PaymentView:

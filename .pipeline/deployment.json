@@ -8,7 +8,7 @@
         "params": {
           "function": "pay-api",
           "alias": "beta",
-          "version": "$LATEST"
+          "version": "2"
         }
       }
     },
@@ -22,7 +22,9 @@
           "service": "pay-api"
         }
       },
-      "tools": ["integration-test"]
+      "tools": [
+        "integration-test"
+      ]
     },
     {
       "name": "prod",
@@ -36,7 +38,9 @@
       },
       "is_production": true,
       "approval_required": true,
-      "approvers": ["sre-oncall"]
+      "approvers": [
+        "sre-oncall"
+      ]
     }
   ],
   "runtime": {

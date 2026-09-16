@@ -1,0 +1,263 @@
+{
+  "tools": [
+    {
+      "tool_id": "build",
+      "description": "Build and package the release artifact.",
+      "kind": "build",
+      "phase": "pre_deploy",
+      "classes": [
+        "build"
+      ],
+      "always": true,
+      "needs_source": true,
+      "duration_minutes": 4,
+      "steps": [
+        {
+          "name": "Build artifact",
+          "run": "echo \"[stub] building release artifact\""
+        }
+      ]
+    },
+    {
+      "tool_id": "code-review",
+      "description": "Verify the change carries an approved peer review.",
+      "kind": "validation",
+      "phase": "pre_deploy",
+      "classes": [
+        "code-review"
+      ],
+      "gate": true,
+      "duration_minutes": 1,
+      "steps": [
+        {
+          "name": "Verify approved review",
+          "run": "echo \"[stub] checking for an approved code review\""
+        }
+      ]
+    },
+    {
+      "tool_id": "unit-test",
+      "description": "Unit tests. Relevant whenever source code changes.",
+      "kind": "test",
+      "phase": "pre_deploy",
+      "classes": [
+        "unit-test"
+      ],
+      "gate": true,
+      "paths": [
+        "services/**",
+        "web/src/**",
+        "*.py"
+      ],
+      "duration_minutes": 6,
+      "needs_source": true,
+      "steps": [
+        {
+          "name": "Run unit tests",
+          "run": "echo \"[stub] running unit test suite\""
+        }
+      ]
+    },
+    {
+      "tool_id": "security-scan",
+      "description": "SAST, dependency audit and image scan.",
+      "kind": "security",
+      "phase": "pre_deploy",
+      "classes": [
+        "security-scan"
+      ],
+      "gate": true,
+      "duration_minutes": 8,
+      "steps": [
+        {
+          "name": "Run security scan",
+          "run": "echo \"[stub] scanning dependencies and images for CVEs\""
+        }
+      ]
+    },
+    {
+      "tool_id": "api-test",
+      "description": "API contract tests. Relevant when API surfaces change.",
+      "kind": "test",
+      "phase": "pre_deploy",
+      "classes": [
+        "api-test",
+        "e2e"
+      ],
+      "gate": true,
+      "paths": [
+        "services/**",
+        "docs/api.md"
+      ],
+      "duration_minutes": 9,
+      "needs_source": true,
+      "steps": [
+        {
+          "name": "Run API tests",
+          "run": "echo \"[stub] exercising API contracts\""
+        }
+      ]
+    },
+    {
+      "tool_id": "ui-test",
+      "description": "UI acceptance tests. Relevant when the front end changes.",
+      "kind": "test",
+      "phase": "pre_deploy",
+      "classes": [
+        "ui-test",
+        "e2e"
+      ],
+      "gate": true,
+      "paths": [
+        "web/**"
+      ],
+      "duration_minutes": 15,
+      "needs_source": true,
+      "steps": [
+        {
+          "name": "Run UI tests",
+          "run": "echo \"[stub] driving UI acceptance flows\""
+        }
+      ]
+    },
+    {
+      "tool_id": "contract-test",
+      "description": "Consumer-driven contract verification. No path condition, so the agent decides.",
+      "kind": "test",
+      "phase": "pre_deploy",
+      "classes": [
+        "contract-test"
+      ],
+      "gate": true,
+      "duration_minutes": 7,
+      "steps": [
+        {
+          "name": "Verify consumer contracts",
+          "run": "echo \"[stub] verifying consumer contracts\""
+        }
+      ]
+    },
+    {
+      "tool_id": "smoke-test",
+      "description": "Post-deployment smoke test. Runs in every environment.",
+      "kind": "test",
+      "phase": "per_environment",
+      "classes": [
+        "smoke-test"
+      ],
+      "gate": true,
+      "always": true,
+      "duration_minutes": 2,
+      "steps": [
+        {
+          "name": "Smoke test",
+          "run": "echo \"[stub] smoke testing $RELEASE_ENV\""
+        }
+      ]
+    },
+    {
+      "tool_id": "integration-test",
+      "description": "Cross-component integration tests, run in gamma.",
+      "kind": "test",
+      "phase": "per_environment",
+      "classes": [
+        "integration-test",
+        "e2e"
+      ],
+      "gate": true,
+      "environments": [
+        "gamma"
+      ],
+      "duration_minutes": 12,
+      "steps": [
+        {
+          "name": "Run integration tests",
+          "run": "echo \"[stub] running integration suite against $RELEASE_ENV\""
+        }
+      ]
+    },
+    {
+      "tool_id": "load-test",
+      "description": "Load validation in gamma. Relevant when backend code changes.",
+      "kind": "test",
+      "phase": "per_environment",
+      "classes": [
+        "load-test"
+      ],
+      "gate": true,
+      "environments": [
+        "gamma"
+      ],
+      "paths": [
+        "services/**"
+      ],
+      "duration_minutes": 20,
+      "steps": [
+        {
+          "name": "Run load test",
+          "run": "echo \"[stub] driving load vectors against $RELEASE_ENV\""
+        }
+      ]
+    },
+    {
+      "tool_id": "health-check",
+      "description": "Post-deployment health verification in production.",
+      "kind": "validation",
+      "phase": "per_environment",
+      "classes": [
+        "health-check"
+      ],
+      "gate": true,
+      "always": true,
+      "environments": [
+        "prod"
+      ],
+      "duration_minutes": 3,
+      "steps": [
+        {
+          "name": "Check production health",
+          "run": "echo \"[stub] probing $RELEASE_ENV health signals\""
+        }
+      ]
+    },
+    {
+      "tool_id": "deploy-ecs",
+      "description": "Deploy to an ECS service. Serves every environment whose target is ECS.",
+      "kind": "deploy",
+      "phase": "deploy",
+      "classes": [
+        "deploy"
+      ],
+      "target_kinds": [
+        "ecs"
+      ],
+      "duration_minutes": 6
+    },
+    {
+      "tool_id": "deploy-lambda",
+      "description": "Deploy a Lambda alias. Serves every environment whose target is Lambda.",
+      "kind": "deploy",
+      "phase": "deploy",
+      "classes": [
+        "deploy"
+      ],
+      "target_kinds": [
+        "lambda"
+      ],
+      "duration_minutes": 3
+    },
+    {
+      "tool_id": "deploy-s3",
+      "description": "Publish static assets to S3.",
+      "kind": "deploy",
+      "phase": "deploy",
+      "classes": [
+        "deploy"
+      ],
+      "target_kinds": [
+        "s3"
+      ],
+      "duration_minutes": 2
+    }
+  ]
+}

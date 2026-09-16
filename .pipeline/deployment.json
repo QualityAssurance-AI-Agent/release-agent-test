@@ -1,0 +1,46 @@
+{
+  "environments": [
+    {
+      "name": "beta",
+      "target": {
+        "kind": "lambda",
+        "region": "us-west-2",
+        "params": {
+          "function": "pay-api",
+          "alias": "beta",
+          "version": "$LATEST"
+        }
+      }
+    },
+    {
+      "name": "gamma",
+      "target": {
+        "kind": "ecs",
+        "region": "us-west-2",
+        "params": {
+          "cluster": "pay-gamma",
+          "service": "pay-api"
+        }
+      },
+      "tools": ["integration-test"]
+    },
+    {
+      "name": "prod",
+      "target": {
+        "kind": "ecs",
+        "region": "us-west-2",
+        "params": {
+          "cluster": "pay-prod",
+          "service": "pay-api"
+        }
+      },
+      "is_production": true,
+      "approval_required": true,
+      "approvers": ["sre-oncall"]
+    }
+  ],
+  "runtime": {
+    "language": "python",
+    "version": "3.12"
+  }
+}

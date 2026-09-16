@@ -1,6 +1,6 @@
 """Request validation for the payments API."""
 
-_CURRENCIES = frozenset({"USD", "EUR", "GBP", "JPY"})
+_CURRENCIES = frozenset({"USD", "EUR", "GBP", "JPY", "CHF", "SEK"})
 
 
 class ValidationError(ValueError):
@@ -16,4 +16,7 @@ def validate_amount(amount_minor: int) -> None:
 
 def validate_currency(currency: str) -> None:
     if currency not in _CURRENCIES:
-        raise ValidationError(f"unsupported currency: {currency}")
+        raise ValidationError(
+            f"unsupported currency: {currency}; supported: "
+            + ", ".join(sorted(_CURRENCIES))
+        )

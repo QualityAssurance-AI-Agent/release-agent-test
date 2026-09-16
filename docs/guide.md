@@ -9,3 +9,7 @@
 
 Changes are released beta, then gamma, then production. Production requires an
 approval from the on-call SRE.
+
+## Rate limits
+
+Search is limited to 20 requests per minute per token. Exceeding it returns 429.

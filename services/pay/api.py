@@ -11,6 +11,9 @@ class PaymentView:
     amount_minor: int
     currency: str
     status: str
+    # New in this change: callers were computing this themselves and getting the
+    # rounding wrong, so the API now returns it.
+    amount_display: str
 
 
 class PaymentNotFound(LookupError):
@@ -29,6 +32,7 @@ def search_payments(store, query: str, limit: int = 25) -> dict:
     matches = store.search(query=query, limit=limit)
     return {
         "query": query,
+        "count": len(matches),
         "payments": [asdict(_view(record)) for record in matches],
     }
 
@@ -41,9 +45,12 @@ def get_payment(store, payment_id: str) -> dict:
 
 
 def _view(record) -> PaymentView:
+    minor = record["amount_minor"]
+    currency = record["currency"]
     return PaymentView(
         id=record["id"],
-        amount_minor=record["amount_minor"],
-        currency=record["currency"],
+        amount_minor=minor,
+        currency=currency,
         status=record["status"],
+        amount_display=f"{minor / 100:.2f} {currency}",
     )

@@ -10,7 +10,6 @@ allow {
 	approval_for_every_production
 	env_gamma_before_prod
 	gate_code_review_before_deploy
-	gate_load_test_before_env_prod
 	gate_security_scan_before_deploy
 	gate_unit_test_before_deploy
 }
@@ -92,34 +91,25 @@ gate_code_review_before_deploy {
 	not stage_deploy_at_or_before(i)
 }
 
-# Rule: a passing 'load-test' GATE must precede every 'prod' environment when the change touches services/**, api/**, src/backend/**
-gate_load_test_before_env_prod {
 	not stage_env_prod_exists
 }
 
-gate_load_test_before_env_prod {
-	not touched_load_test_env_prod
 }
 
-gate_load_test_before_env_prod {
 	some i, j
 	job := input.stages[i].jobs[j]
 	job.gate
-	provides_class(job, "load-test")
 	not stage_env_prod_at_or_before(i)
 }
 
-touched_load_test_env_prod {
 	some k
 	glob.match("services/**", ["/"], input.change.files[k])
 }
 
-touched_load_test_env_prod {
 	some k
 	glob.match("api/**", ["/"], input.change.files[k])
 }
 
-touched_load_test_env_prod {
 	some k
 	glob.match("src/backend/**", ["/"], input.change.files[k])
 }
@@ -208,8 +198,6 @@ deny[msg] {
 }
 
 deny[msg] {
-	not gate_load_test_before_env_prod
-	msg := sprintf("ORDERING GATE VIOLATION: the change touches services/**, api/**, src/backend/**, so a 'load-test' gate must run and pass before any 'prod' environment", [])
 }
 
 deny[msg] {

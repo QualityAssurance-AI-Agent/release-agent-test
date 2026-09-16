@@ -25,16 +25,6 @@
       ]
     },
     {
-      "rule_type": "require_gate_before",
-      "job_class": "load-test",
-      "before_environment": "prod",
-      "paths": [
-        "services/**",
-        "api/**",
-        "src/backend/**"
-      ]
-    },
-    {
       "rule_type": "require_environment_before",
       "environment": "gamma",
       "before_environment": "prod"

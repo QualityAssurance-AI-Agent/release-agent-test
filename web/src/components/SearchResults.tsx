@@ -24,8 +24,12 @@ export function SearchResults({ payments }: { payments: Payment[] }) {
   }
   return (
     <ul className="results">
-      {payments.map((payment) => (
-        <li key={payment.id} className={`result result--${payment.status}`}>
+      {payments.map((payment, index) => (
+        <li
+          key={payment.id}
+          className={`result result--${payment.status}`}
+          aria-rowindex={index + 1}
+        >
           <span className="result__id">{payment.id}</span>
           <span className="result__amount">
             {formatAmount(payment.amountMinor, payment.currency)}

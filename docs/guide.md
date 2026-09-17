@@ -9,3 +9,7 @@
 
 Changes are released beta, then gamma, then production. Production requires an
 approval from the on-call SRE.
+
+## Support
+
+Ask in #payments-oncall. Include the payment id and the time window you searched.

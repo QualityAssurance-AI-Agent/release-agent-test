@@ -55,6 +55,12 @@ def test_single_payment_carries_the_settlement_timestamps():
     assert view["settled_at"] == "2026-09-01T10:00:04Z"
 
 
+def test_settlement_is_reported_explicitly_not_inferred():
+    """Absence of a timestamp is not the same as not having settled."""
+    assert get_payment(Store(), "pay_1001")["is_settled"] is True
+    assert get_payment(Store(), "pay_1002")["is_settled"] is False
+
+
 def test_a_pending_payment_has_no_settled_at():
     assert get_payment(Store(), "pay_1002")["settled_at"] is None
 

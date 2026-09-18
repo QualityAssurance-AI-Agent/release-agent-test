@@ -45,6 +45,9 @@ def get_payment(store, payment_id: str) -> dict:
     view = asdict(_view(record))
     view["created_at"] = record["created_at"]
     view["settled_at"] = record.get("settled_at")
+    # Callers were inferring this from settled_at being absent, which broke for
+    # payments that settled with no timestamp recorded.
+    view["is_settled"] = record["status"] == "settled"
     return view
 
 

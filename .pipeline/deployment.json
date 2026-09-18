@@ -9,7 +9,8 @@
           "function": "pay-api",
           "alias": "beta",
           "version": "2"
-        }
+        },
+        "account": "486655355536"
       }
     },
     {
@@ -20,7 +21,8 @@
         "params": {
           "cluster": "pay-gamma",
           "service": "pay-api"
-        }
+        },
+        "account": "486655355536"
       },
       "tools": [
         "integration-test"
@@ -34,7 +36,8 @@
         "params": {
           "cluster": "pay-prod",
           "service": "pay-api"
-        }
+        },
+        "account": "486655355536"
       },
       "is_production": true,
       "approval_required": true,

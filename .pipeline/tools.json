@@ -11,12 +11,8 @@
       "always": true,
       "needs_source": true,
       "duration_minutes": 4,
-      "steps": [
-        {
-          "name": "Build artifact",
-          "run": "echo \"[stub] building release artifact\""
-        }
-      ]
+      "steps": [],
+      "workflow": "build.yml"
     },
     {
       "tool_id": "code-review",

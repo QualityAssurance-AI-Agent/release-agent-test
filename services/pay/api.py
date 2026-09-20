@@ -59,5 +59,5 @@ def _view(record) -> PaymentView:
         amount_minor=minor,
         currency=currency,
         status=record["status"],
-        amount_display=f"{minor / 100:.2f} {currency}",
+        amount_display=f"{minor // 100} {currency}",
     )

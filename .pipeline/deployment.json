@@ -7,8 +7,7 @@
         "region": "us-west-2",
         "params": {
           "function": "pay-api",
-          "alias": "beta",
-          "version": "2"
+          "alias": "beta"
         },
         "account": "486655355536"
       }

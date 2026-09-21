@@ -90,7 +90,7 @@ gate_code_review_before_deploy {
 	not stage_deploy_at_or_before(i)
 }
 
-# Rule: a passing 'load-test' GATE must precede every 'prod' environment when the change touches services/**
+# Rule: a passing 'load-test' GATE must precede every 'prod' environment when the change touches **/payment*/**, **/payments/**, services/**/api/**, **/backend/**
 gate_load_test_before_env_prod {
 	not stage_env_prod_exists
 }
@@ -109,7 +109,22 @@ gate_load_test_before_env_prod {
 
 touched_load_test_env_prod {
 	some k
-	glob.match("services/**", ["/"], input.change.files[k])
+	glob.match("**/payment*/**", ["/"], input.change.files[k])
+}
+
+touched_load_test_env_prod {
+	some k
+	glob.match("**/payments/**", ["/"], input.change.files[k])
+}
+
+touched_load_test_env_prod {
+	some k
+	glob.match("services/**/api/**", ["/"], input.change.files[k])
+}
+
+touched_load_test_env_prod {
+	some k
+	glob.match("**/backend/**", ["/"], input.change.files[k])
 }
 
 # Rule: a passing 'security-scan' GATE must precede every deploy stage
@@ -182,7 +197,7 @@ deny[msg] {
 
 deny[msg] {
 	not gate_load_test_before_env_prod
-	msg := sprintf("ORDERING GATE VIOLATION: the change touches services/**, so a 'load-test' gate must run and pass before any 'prod' environment", [])
+	msg := sprintf("ORDERING GATE VIOLATION: the change touches **/payment*/**, **/payments/**, services/**/api/**, **/backend/**, so a 'load-test' gate must run and pass before any 'prod' environment", [])
 }
 
 deny[msg] {

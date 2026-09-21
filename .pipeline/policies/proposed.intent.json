@@ -26,7 +26,10 @@
       "job_class": "load-test",
       "before_environment": "prod",
       "paths": [
-        "services/**"
+        "**/payment*/**",
+        "**/payments/**",
+        "services/**/api/**",
+        "**/backend/**"
       ]
     },
     {
@@ -39,5 +42,5 @@
       "stage_selector": "production"
     }
   ],
-  "summary": "Gate deployments on code review + security scan; require unit tests for code/service/lib changes before deploy; require a load test before production for services/ changes; gamma must precede production; production needs approval."
+  "summary": "Gate all deploys on code review + security scan; unit-test source/service/library changes before deploy; load-test payment/backend changes before prod; gamma before prod; require SRE approval for production."
 }

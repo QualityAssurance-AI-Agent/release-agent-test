@@ -25,9 +25,9 @@ scan. Nothing reaches an environment without both.
 Any change to source code, services or libraries has to pass unit tests before it is
 deployed. Documentation-only changes do not.
 
-Payment code and the backend APIs carry the money path, so any change to them must
-pass a load test before production. We have been burned by a query that was fine at
-ten requests a second and fell over at a hundred.
+Everything under `services/` carries the money path, so any change there must pass a
+load test before production. We have been burned by a query that was fine at ten
+requests a second and fell over at a hundred.
 
 Production is never the first environment: gamma must be released first. And a
 production deployment needs an approval from the on-call SRE — not because we expect

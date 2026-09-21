@@ -48,11 +48,17 @@ jobs:
           python -m pip install --quiet pytest
           cd services/pay && python -m pytest tests -q
 
+      # Only what runs in production. The tests ran a step ago and left their
+      # cache and bytecode behind; shipping those means the artifact differs from
+      # one machine to the next and the deployed function is full of files nobody
+      # can account for.
       - name: Package
         run: |
           cd services/pay
-          zip -qr "$GITHUB_WORKSPACE/pay-api.zip" . -x 'tests/*'
-          ls -l "$GITHUB_WORKSPACE/pay-api.zip"
+          zip -qr "$GITHUB_WORKSPACE/pay-api.zip" . \
+            -x 'tests/*' '.pytest_cache/*' '__pycache__/*' '*.pyc'
+          echo "packaged:"
+          unzip -l "$GITHUB_WORKSPACE/pay-api.zip"
 
       - uses: aws-actions/configure-aws-credentials@v4
         with:

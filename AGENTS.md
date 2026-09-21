@@ -19,8 +19,10 @@ package, so a running function can say which commit it came from.
 
 ## Release rules
 
-Every deployment must be preceded by a passing code review and a passing security
-scan. Nothing reaches an environment without both.
+Every deployment must be preceded by a code review that a peer approved, and by a
+passing security scan. Nothing reaches an environment without both. The review itself
+happens on the pull request; what runs in the release only confirms it was not
+skipped.
 
 Any change to source code, services or libraries has to pass unit tests before it is
 deployed. Documentation-only changes do not.

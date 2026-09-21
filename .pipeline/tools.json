@@ -15,8 +15,8 @@
       "workflow": "build.yml"
     },
     {
-      "tool_id": "code-review",
-      "description": "Verify the change carries an approved peer review.",
+      "tool_id": "peer-review-approved",
+      "description": "Verify the change was approved by a peer before it was merged. This does not review anything: the review happened on the pull request, and this confirms it was not skipped.",
       "kind": "validation",
       "phase": "pre_deploy",
       "classes": [
@@ -26,8 +26,8 @@
       "duration_minutes": 1,
       "steps": [
         {
-          "name": "Verify approved review",
-          "run": "echo \"[stub] checking for an approved code review\""
+          "name": "Verify an approving review exists",
+          "run": "echo \"[stub] would check the pull request for an approving review\""
         }
       ]
     },

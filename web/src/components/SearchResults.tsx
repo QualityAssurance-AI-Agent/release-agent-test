@@ -1,5 +1,11 @@
 import React from "react";
 
+const STATUS_HINTS: Record<Payment["status"], string> = {
+  pending: "Awaiting settlement with the processor",
+  settled: "Funds have settled",
+  failed: "The processor declined this payment",
+};
+
 export interface Payment {
   id: string;
   amountMinor: number;
@@ -8,7 +14,10 @@ export interface Payment {
 }
 
 export function formatAmount(amountMinor: number, currency: string): string {
-  return `${(amountMinor / 100).toFixed(2)} ${currency}`;
+  return new Intl.NumberFormat(undefined, {
+    style: "currency",
+    currency,
+  }).format(amountMinor / 100);
 }
 
 export function SearchResults({ payments }: { payments: Payment[] }) {
@@ -34,7 +43,9 @@ export function SearchResults({ payments }: { payments: Payment[] }) {
           <span className="result__amount">
             {formatAmount(payment.amountMinor, payment.currency)}
           </span>
-          <span className="result__status">{payment.status}</span>
+          <span className="result__status" title={STATUS_HINTS[payment.status]}>
+            {payment.status}
+          </span>
         </li>
       ))}
     </ul>

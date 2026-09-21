@@ -32,8 +32,3 @@ ten requests a second and fell over at a hundred.
 Production is never the first environment: gamma must be released first. And a
 production deployment needs an approval from the on-call SRE — not because we expect
 to reject them, but because somebody should know it happened.
-
-## Environments
-
-`beta` is a Lambda alias; `gamma` and `prod` run on ECS. The release path is beta,
-then gamma, then production.

@@ -61,14 +61,6 @@ def test_settlement_is_reported_explicitly_not_inferred():
     assert get_payment(Store(), "pay_1002")["is_settled"] is False
 
 
-def test_a_settled_payment_is_refundable_until_it_is_refunded():
-    assert get_payment(Store(), "pay_1001")["refundable"] is True
-
-
-def test_a_pending_payment_is_not_refundable():
-    assert get_payment(Store(), "pay_1002")["refundable"] is False
-
-
 def test_a_pending_payment_has_no_settled_at():
     assert get_payment(Store(), "pay_1002")["settled_at"] is None
 

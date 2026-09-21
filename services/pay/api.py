@@ -48,9 +48,6 @@ def get_payment(store, payment_id: str) -> dict:
     # Callers were inferring this from settled_at being absent, which broke for
     # payments that settled with no timestamp recorded.
     view["is_settled"] = record["status"] == "settled"
-    # Support asked for this: they were computing it from settled_at by hand and
-    # getting the boundary wrong on the day the window closes.
-    view["refundable"] = record["status"] == "settled" and not record.get("refunded")
     return view
 
 
